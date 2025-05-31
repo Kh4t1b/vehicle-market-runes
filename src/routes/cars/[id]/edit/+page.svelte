@@ -1,12 +1,14 @@
 <script>
-  let title = "";
-  let brand = "";
-  let model = "";
-  let year = "";
-  let price = "";
+  export let data;
+
+  let title = data.car.title;
+  let brand = data.car.brand;
+  let model = data.car.model;
+  let year = data.car.year;
+  let price = data.car.price;
   let image;
-  let sellerName = "";
-  let sellerLocation = "";
+  let sellerName = data.car.sellerName;
+  let sellerLocation = data.car.sellerLocation;
 
   async function handleSubmit() {
     const formData = new FormData();
@@ -15,11 +17,14 @@
     formData.append("model", model);
     formData.append("year", year);
     formData.append("price", price);
-    formData.append("image", image);
     formData.append("sellerName", sellerName);
     formData.append("sellerLocation", sellerLocation);
 
-    const res = await fetch("/cars/create", {
+    if (image) {
+      formData.append("image", image);
+    }
+
+    const res = await fetch(`/cars/${data.car._id}/edit`, {
       method: "POST",
       body: formData
     });
@@ -32,9 +37,8 @@
   }
 </script>
 
-<h1>Fahrzeug hinzufügen</h1>
-<a href="/cars" class="btn-primary back-link">← Zurück zur Übersicht</a>
-
+<h1>Fahrzeug bearbeiten</h1>
+<a href="/cars" class="back-button">← Zurück zur Übersicht</a>
 
 <div class="grid-container">
   <form on:submit|preventDefault={handleSubmit} class="form">
@@ -59,10 +63,10 @@
       <input type="number" step="0.01" bind:value={price} required />
     </label>
     <label>
-      Bild hochladen:
-      <input type="file" accept="image/*" on:change={(e) => image = e.target.files[0]} required />
+      Bild ersetzen:
+      <input type="file" accept="image/*" on:change={(e) => image = e.target.files[0]} />
     </label>
-    <button type="submit">Fahrzeug speichern</button>
+    <button type="submit">Änderungen speichern</button>
   </form>
 
   <div class="seller-box">
@@ -79,6 +83,17 @@
 </div>
 
 <style>
+  .back-button {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding: 0.4rem 0.8rem;
+    background-color: #0070f3;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
   .grid-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -127,19 +142,4 @@
   .seller-box h2 {
     margin-bottom: 1rem;
   }
-  .back-link {
-  display: inline-block;
-  margin-bottom: 1rem;
-  background-color: #0070f3;
-  color: white;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.back-link:hover {
-  background-color: #005bb5;
-}
-
 </style>
