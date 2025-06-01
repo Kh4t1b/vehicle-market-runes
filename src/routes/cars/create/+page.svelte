@@ -4,9 +4,21 @@
   let model = "";
   let year = "";
   let price = "";
-  let image;
+  let image = null;
+  let imagePreview = "";
   let sellerName = "";
   let sellerLocation = "";
+
+  function handleFileChange(e) {
+    image = e.target.files[0];
+    if (image) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        imagePreview = reader.result;
+      };
+      reader.readAsDataURL(image);
+    }
+  }
 
   async function handleSubmit() {
     const formData = new FormData();
@@ -35,7 +47,6 @@
 <h1>Fahrzeug hinzufügen</h1>
 <a href="/cars" class="btn-primary back-link">← Zurück zur Übersicht</a>
 
-
 <div class="grid-container">
   <form on:submit|preventDefault={handleSubmit} class="form">
     <label>
@@ -60,8 +71,13 @@
     </label>
     <label>
       Bild hochladen:
-      <input type="file" accept="image/*" on:change={(e) => image = e.target.files[0]} required />
+      <input type="file" accept="image/*" on:change={handleFileChange} required />
     </label>
+
+    {#if imagePreview}
+      <img src={imagePreview} alt="Vorschau" class="preview-image" />
+    {/if}
+
     <button type="submit">Fahrzeug speichern</button>
   </form>
 
@@ -79,11 +95,18 @@
 </div>
 
 <style>
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
   .grid-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
     align-items: start;
+    margin-top: 1rem;
   }
 
   .form {
@@ -106,6 +129,14 @@
     border-radius: 6px;
   }
 
+  .preview-image {
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    max-height: 200px;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
   button {
     margin-top: 1rem;
     padding: 0.8rem 1.2rem;
@@ -115,6 +146,11 @@
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #005bb5;
   }
 
   .seller-box {
@@ -126,20 +162,22 @@
 
   .seller-box h2 {
     margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
   }
+
   .back-link {
-  display: inline-block;
-  margin-bottom: 1rem;
-  background-color: #0070f3;
-  color: white;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: bold;
-}
+    display: inline-block;
+    margin-bottom: 1rem;
+    background-color: #0070f3;
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+  }
 
-.back-link:hover {
-  background-color: #005bb5;
-}
-
+  .back-link:hover {
+    background-color: #005bb5;
+  }
 </style>

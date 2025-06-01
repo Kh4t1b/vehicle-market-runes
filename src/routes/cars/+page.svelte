@@ -3,13 +3,24 @@
   export let data;
 </script>
 
+<!-- 🔋 Hero direkt unter Navigation -->
+<section class="e-auto-hero">
+  <div class="e-auto-wrapper">
+    <img src="/e-auto.jpg" alt="E-Auto entdecken" class="e-auto-img" />
+    <div class="e-auto-text">Jetzt <strong>E-Autos</strong> entdecken</div>
+  </div>
+</section>
+
+<!-- Titel + Buttonzeile -->
 <div class="top-bar">
   <h1>Fahrzeuge</h1>
-  <a href="/sellers" class="seller-button">Verkäufer anzeigen</a>
+  <div class="button-row">
+    <a href="/" class="back-button">← Zurück zur Startseite</a>
+    <a href="/sellers" class="seller-button">Verkäufer anzeigen</a>
+  </div>
 </div>
 
-<a href="/" class="back-button">← Zurück zur Startseite</a>
-
+<!-- 🚗 Fahrzeugliste -->
 <div class="car-list">
   {#each data.allCars as car}
     <div class="card">
@@ -18,43 +29,96 @@
       <p>{car.brand} {car.model} ({car.year})</p>
       <p>{car.price} CHF</p>
       <p class="seller">Inseriert von: {car.userName}</p>
-
     </div>
   {/each}
 </div>
 
 <style>
+  .e-auto-hero {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+  }
 
+  .e-auto-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 180px;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 
- .top-bar {
+  .e-auto-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .e-auto-text {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
   }
 
-  .seller-button {
-    padding: 0.4rem 0.8rem;
-    background-color: #0070f3;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
+  h1 {
+    font-size: 2rem;
     font-weight: bold;
   }
 
+  .button-row {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .back-button,
+  .seller-button {
+    padding: 0.5rem 1rem;
+    background-color: #0070f3;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+  }
+
+  .back-button:hover,
   .seller-button:hover {
     background-color: #005bb5;
   }
-  .seller {
-    font-size: 0.9rem;
-    color: #555;
-    margin-top: 0.5rem;
-  }
+
   .car-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
   }
 
   .card {
@@ -80,20 +144,9 @@
     text-decoration: underline;
   }
 
-  .back-button {
-    display: inline-block;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    padding: 0.5rem 1rem;
-    background-color: #0070f3;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-  }
-
-  .back-button:hover {
-    background-color: #005bb5;
+  .seller {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.5rem;
   }
 </style>
