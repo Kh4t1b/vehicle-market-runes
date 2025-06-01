@@ -1,10 +1,10 @@
 <script>
-  // kein spezielles Script nötig
+
 </script>
 
 <section class="hero">
   <div class="hero-box">
-    <h1>Willkommen beim Fahrzeugmarkt</h1>
+    <h1>DeinAuto24</h1>
     <p>Inseriere oder finde dein Traumfahrzeug.</p>
     <div class="buttons">
       <a href="/cars" class="btn-primary">Jetzt Fahrzeuge entdecken</a>
@@ -16,7 +16,7 @@
 <style>
   .hero {
     height: 100vh;
-    background-image: url('/autom.jpg'); /* ✅ Bild muss im /static Ordner liegen */
+    background-image: url('/autom.jpg'); 
     background-size: cover;
     background-position: center;
     display: flex;

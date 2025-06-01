@@ -18,11 +18,11 @@
 </script>
 
 <h1>{car.title}</h1>
-
 <a href="/cars" class="back-button">← Zurück zur Übersicht</a>
 
 <div class="car-detail">
   <img src="{car.imageUrl}" alt="Bild von {car.title}" class="car-image" />
+
   <ul>
     <li><strong>Marke:</strong> {car.brand}</li>
     <li><strong>Modell:</strong> {car.model}</li>

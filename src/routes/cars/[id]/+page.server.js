@@ -1,37 +1,34 @@
 import { cars } from '$lib/db.js';
 import { ObjectId } from 'mongodb';
+import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
-  const id = params.id;
-  console.log('📦 Detailseite wird geladen mit ID:', id);
+  const carId = params.id;
 
   try {
-    const car = await cars.findOne({ _id: new ObjectId(id) });
+    // Versuch die ID in ein ObjectId umzuwandeln
+    const objectId = new ObjectId(carId);
+
+    // Suche das Fahrzeug in der Datenbank
+    const car = await cars.findOne({ _id: objectId });
 
     if (!car) {
-      console.log('❌ Fahrzeug nicht gefunden');
-      return {
-        status: 404,
-        error: new Error('Fahrzeug nicht gefunden')
-      };
+      // Wenn nicht gefunden, wirf einen 404-Fehler
+      throw error(404, 'Fahrzeug nicht gefunden');
     }
 
-    console.log('✅ Fahrzeug gefunden:', car.title);
-
+    // Gib das Auto zurück mit serialisierbaren Feldern
     return {
-  car: {
-    ...car,
-    _id: car._id.toString(),
-    userId: car.userId?.toString() ?? null // ✅ macht das serialisierbar
-  }
-};
-
-  } catch (error) {
-    console.error('❌ Fehler beim Laden des Fahrzeugs:', error);
-    return {
-      status: 500,
-      error: new Error('Interner Fehler beim Laden der Fahrzeugdetails')
+      car: {
+        ...car,
+        _id: car._id.toString(),
+        userId: car.userId?.toString() ?? null
+      }
     };
+
+  } catch (err) {
+    console.error('❌ Fehler beim Laden des Fahrzeugs:', err);
+    throw error(500, 'Interner Fehler beim Laden der Fahrzeugdetails');
   }
 }

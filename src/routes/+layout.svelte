@@ -5,7 +5,7 @@
 
 {#if !isHome}
   <header class="navbar">
-    <h1 class="title">Fahrzeugmarkt</h1>
+    <h1 class="title">DeinAuto24</h1>
     <nav>
       <a href="/cars">Fahrzeuge</a>
       <a href="/sellers">Verkäufer</a>

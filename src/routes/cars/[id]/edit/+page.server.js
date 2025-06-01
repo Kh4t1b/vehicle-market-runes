@@ -1,28 +1,27 @@
 import { cars, ObjectId } from '$lib/db.js';
+import { error, redirect } from '@sveltejs/kit';
 
 export async function load({ params }) {
   const id = params.id;
   const car = await cars.findOne({ _id: new ObjectId(id) });
 
   if (!car) {
-    return {
-      status: 404,
-      error: new Error('Fahrzeug nicht gefunden')
-    };
+    throw error(404, 'Fahrzeug nicht gefunden');
   }
 
   return {
     car: {
       ...car,
-      _id: car._id.toString()
+      _id: car._id.toString(),
+      userId: car.userId?.toString() ?? null
     }
   };
 }
 
 export const actions = {
   default: async ({ request, params }) => {
-    const form = await request.formData();
     const id = params.id;
+    const form = await request.formData();
 
     const title = form.get("title");
     const brand = form.get("brand");
@@ -43,7 +42,6 @@ export const actions = {
       sellerLocation
     };
 
-    // Optionales neues Bild hochladen
     if (image && typeof image === "object" && image.size > 0) {
       const uploadFormData = new FormData();
       uploadFormData.append("file", image);
@@ -68,9 +66,6 @@ export const actions = {
       { $set: updateData }
     );
 
-    return {
-      status: 303,
-      redirect: "/cars"
-    };
+    throw redirect(303, `/cars/${id}`);
   }
 };
