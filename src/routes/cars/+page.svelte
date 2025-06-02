@@ -1,9 +1,8 @@
-<!-- src/routes/cars/+page.svelte -->
+
 <script>
   export let data;
 </script>
 
-<!-- 🔋 Hero direkt unter Navigation -->
 <section class="e-auto-hero">
   <div class="e-auto-wrapper">
     <img src="/e-auto.jpg" alt="E-Auto entdecken" class="e-auto-img" />
@@ -11,7 +10,6 @@
   </div>
 </section>
 
-<!-- Titel + Buttonzeile -->
 <div class="top-bar">
   <h1>Fahrzeuge</h1>
   <div class="button-row">
@@ -20,7 +18,6 @@
   </div>
 </div>
 
-<!-- 🚗 Fahrzeugliste -->
 <div class="car-list">
   {#each data.allCars as car}
     <div class="card">

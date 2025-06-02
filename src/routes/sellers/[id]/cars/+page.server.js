@@ -29,7 +29,7 @@ export async function load({ params }) {
       cars: preparedCars
     };
   } catch (err) {
-    console.error('❌ Fehler beim Laden der Fahrzeugliste:', err);
+    console.error('Fehler beim Laden der Fahrzeugliste:', err);
     throw error(500, 'Interner Fehler beim Laden der Fahrzeugliste');
   }
 }

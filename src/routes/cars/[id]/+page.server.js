@@ -7,18 +7,18 @@ export async function load({ params }) {
   const carId = params.id;
 
   try {
-    // Versuch die ID in ein ObjectId umzuwandeln
+
     const objectId = new ObjectId(carId);
 
-    // Suche das Fahrzeug in der Datenbank
+
     const car = await cars.findOne({ _id: objectId });
 
     if (!car) {
-      // Wenn nicht gefunden, wirf einen 404-Fehler
+
       throw error(404, 'Fahrzeug nicht gefunden');
     }
 
-    // Gib das Auto zurück mit serialisierbaren Feldern
+    
     return {
       car: {
         ...car,
@@ -28,7 +28,7 @@ export async function load({ params }) {
     };
 
   } catch (err) {
-    console.error('❌ Fehler beim Laden des Fahrzeugs:', err);
+    console.error('Fehler beim Laden des Fahrzeugs:', err);
     throw error(500, 'Interner Fehler beim Laden der Fahrzeugdetails');
   }
 }

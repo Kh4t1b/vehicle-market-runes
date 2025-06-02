@@ -5,5 +5,5 @@ await client.connect();
 
 const db = client.db('vehicle-market');
 export const cars = db.collection('cars');
-export const users = db.collection('users'); // ✅ NEU
+export const users = db.collection('users');
 export { ObjectId };

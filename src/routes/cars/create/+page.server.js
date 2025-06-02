@@ -1,4 +1,4 @@
-import { cars, users, ObjectId } from '$lib/db.js'; // ✅ WICHTIG: users importieren
+import { cars, users, ObjectId } from '$lib/db.js'; 
 
 export const actions = {
   default: async ({ request }) => {
@@ -6,11 +6,10 @@ export const actions = {
     const image = form.get('image');
 
     if (!image || typeof image !== 'object') {
-      console.log('⚠️ Kein Bild empfangen');
+      console.log('Kein Bild empfangen');
       return;
     }
 
-    // 📷 Bild bei Cloudinary hochladen
     const uploadFormData = new FormData();
     uploadFormData.append('file', image);
     uploadFormData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
@@ -25,11 +24,10 @@ export const actions = {
     const imageUrl = cloudinaryData.secure_url;
 
     if (!imageUrl) {
-      console.error('❌ Bild konnte nicht hochgeladen werden');
+      console.error('Bild konnte nicht hochgeladen werden');
       return;
     }
 
-    // 📄 Weitere Felder holen
     const title = form.get('title');
     const brand = form.get('brand');
     const model = form.get('model');
@@ -38,13 +36,12 @@ export const actions = {
     const sellerName = form.get('sellerName');
     const sellerLocation = form.get('sellerLocation');
 
-    // 🔐 Pflichtfelder prüfen
+
     if (!title || !brand || !model || !year || !price || !sellerName || !sellerLocation) {
-      console.warn('⚠️ Fehlende Pflichtfelder');
+      console.warn('Fehlende Pflichtfelder');
       return;
     }
 
-    // 👤 Anbieter suchen oder erstellen
     let user = await users.findOne({ name: sellerName, location: sellerLocation });
 
     if (!user) {
@@ -54,23 +51,22 @@ export const actions = {
         createdAt: new Date()
       });
 
-      user = await users.findOne({ _id: insertResult.insertedId }); // 🔁 sicherheitshalber nochmal laden
+      user = await users.findOne({ _id: insertResult.insertedId });
     }
 
-    // 🚗 Fahrzeug speichern mit userId
     const newCar = {
       title,
       brand,
       model,
       year,
       price,
-      userId: user._id, // ✅ entscheidend!
+      userId: user._id,
       imageUrl,
       createdAt: new Date()
     };
 
     await cars.insertOne(newCar);
-    console.log('✅ Fahrzeug gespeichert mit User:', user.name);
+    console.log('Fahrzeug gespeichert mit User:', user.name);
 
     return {
       status: 303,
